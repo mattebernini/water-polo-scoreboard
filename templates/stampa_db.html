@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <title>All Stats</title>
+</head>
+<body>
+    <h1>PARTITA</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Avversaria</th>
+                <th>Data</th>
+                <th>Tentati</th>
+                <th>Realizzati</th>
+                <th>Ritmo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stat in team_stats %}
+                <tr>
+                    <td>{{ stat.avversario }}</td>
+                    <td>{{ stat.data_partita }}</td>
+                    <td>{{ stat.piu_tentati }}</td>
+                    <td>{{ stat.piu_realizzati }}</td>
+                    <td>{{ stat.ritmo }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h1>GIOCATORE</h1>
+    <table>
+        <tbody>
+            {% for stat in giocatori %}
+                <tr>
+                    <td>{{ stat.nome }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h1>PERSONALI</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>nome_giocatore</th>
+                <th>id_partita</th>
+                <th>gol</th>
+                <th>assist</th>
+                <th>espulsioni</th>
+                <th>recuperi</th>
+                <th>stoppate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stats in personal_stats %}
+                <tr>
+                    <td>{{ stats.nome_giocatore }}</td>
+                    <td>{{ stats.id_partita }}</td>
+                    <td>{{ stats.gol }}</td>
+                    <td>{{ stats.assist }}</td>
+                    <td>{{ stats.espulsioni }}</td>
+                    <td>{{ stats.recuperi }}</td>
+                    <td>{{ stats.stoppate }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

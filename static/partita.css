@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    color: #008080;
+}
+
+
+label {
+    font-weight: bold;
+}
+
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #dddddd;
+}
+
+#submit {
+    margin: 2%;
+    padding: 2%;
+    float: right;
+}
+
+table {
+    width: 100%;
+}
+
+input[type=number] {
+    width: 50px;
+}

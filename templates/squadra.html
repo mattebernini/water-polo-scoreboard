@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stat Personali</title>
+    <link rel="stylesheet" href="../static/classifiche.css">
+</head>
+<body>
+    <h1>Statistiche Singola partita</h1>
+    <table id = "squadra_grezza">
+        <thead>
+            <tr>
+                <th onclick="sort('squadra_grezza', 0)">Avversario</th>
+                <th onclick="sort('squadra_grezza', 1)">Casa/Trasferta</th>
+                <th onclick="sort('squadra_grezza', 2)">Data</th>
+                <th onclick="sort('squadra_grezza', 3)">Gol fatti</th>
+                <th onclick="sort('squadra_grezza', 4)">Gol subiti</th>
+                <th onclick="sort('squadra_grezza', 5)">% uomo in +</th>
+                <th onclick="sort('squadra_grezza', 6)">% uomo in -</th>
+                <th onclick="sort('squadra_grezza', 7)">Ritmo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stats in squadra_grezza %}
+            <tr>
+                {% for s in stats %}
+                <td>{{ s }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+    <br>
+    <h1>Medie di squadra</h1>
+    <table id = "medie_squadra">
+        <thead>
+            <tr>
+                <th onclick="sort('medie_squadra', 0)">Gol fatti</th>
+                <th onclick="sort('medie_squadra', 1)">Gol subiti</th>
+                <th onclick="sort('medie_squadra', 2)">% uomo in +</th>
+                <th onclick="sort('medie_squadra', 3)">% uomo in -</th>
+                <th onclick="sort('medie_squadra', 4)">Ritmo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stats in medie_squadra %}
+            <tr>
+                {% for s in stats %}
+                <td>{{ s }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+    <br>
+    <a href="http://localhost:5000/wp">Torna alla pagina principale</a>
+    <br>
+    <a id="guarda-db" href="http://localhost:5000/wp/db">Mostra il database</a>
+        <script>
+
+
+function sort(table_name, n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById(table_name);
+    switching = true;
+    // Set the sorting direction to ascending:
+    dir = "desc";
+    /* Make a loop that will continue until
+    no switching has been done: */
+    while (switching) {
+      // Start by saying: no switching is done:
+      switching = false;
+      rows = table.rows;
+      /* Loop through all table rows (except the
+      first, which contains table headers): */
+      for (i = 1; i < (rows.length - 1); i++) {
+        // Start by saying there should be no switching:
+        shouldSwitch = false;
+        /* Get the two elements you want to compare,
+        one from current row and one from the next: */
+        x = rows[i].getElementsByTagName("TD")[n];
+        y = rows[i + 1].getElementsByTagName("TD")[n];
+        /* Check if the two rows should switch place,
+        based on the direction, asc or desc: */
+        if (dir == "asc") {
+          if (parseFloat(x.innerHTML) > parseFloat(y.innerHTML)) {
+            // If so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        } else if (dir == "desc") {
+          if (parseFloat(x.innerHTML) < parseFloat(y.innerHTML)) {
+            // If so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        }
+      }
+      if (shouldSwitch) {
+        /* If a switch has been marked, make the switch
+        and mark that a switch has been done: */
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        // Each time a switch is done, increase this count by 1:
+        switchcount ++;
+      } else {
+        /* If no switching has been done AND the direction is "asc",
+        set the direction to "desc" and run the while loop again. */
+        if (switchcount == 0 && dir == "asc") {
+          dir = "desc";
+          switching = true;
+        }
+      }
+    }
+  }
+        </script>
+</body>
+</html>

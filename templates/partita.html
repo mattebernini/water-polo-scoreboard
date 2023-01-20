@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Polo Scoreboard</title>
+    <link rel="stylesheet" href="../static/partita.css">
+</head>
+<body onload="crea_tabella()">
+    <h1>Water Polo Scoreboard</h1>
+    <form action="http://localhost:5000/wp/stats_partita/result" method="post">
+        <h2>Statistiche di squadra</h2>
+            <label for="avversaria">Squadra avversaria: </label>
+        <input type="text" name="avversaria" id="avversaria">
+        <input type="text" list="scelta_location" name="location" id="location"/>
+        <datalist id="scelta_location">
+            <option>Casa</option>
+            <option>Trasferta</option>
+        </datalist>
+        <input type="date" value="2023-1-28" name="data" id="data">
+        <br>
+        <label for="+ tentati">Uomo in + tentati</label>
+        <input value="0" type="number" name="+ tentati" id="+ tentati">
+        <label for="+ realizzati">Uomo in + realizzati</label>
+        <input value="0" type="number" name="+ realizzati" id="+ realizzati">
+        <label for="ritmo">Ritmo (n° possessi)</label>
+        <input value="0" type="number" name="ritmo" id="ritmo">
+        <br>
+            <label for="gol subiti">Gol subiti</label>
+        <input value="0" type="number" name="gol subiti" id="gol subiti">
+            <label for="- tentati">Uomo in - giocati</label>
+        <input value="0" type="number" name="- tentati" id="piu_subiti">
+            <label for="- subiti">Gol subiti su uomo in -</label>
+        <input value="0" type="number" name="- subiti" id="- subiti">
+        <h2>Statistiche personali</h2>
+        <table id="scoreboard">
+            <tr>
+                <th>Numero</th>
+                <th>Nome e Cognome</th>
+                <th>Gol</th>
+                <th>Tiri</th>
+                <th>Assist</th>
+                <th>Espulsioni</th>
+                <th>Recuperi</th>
+                <th>Tiri stoppati</th>
+                <th>Plus-minus</th>
+                <th>Palle perse</th>
+            </tr>
+        </table>
+        <input type="submit" id="submit" value="SALVA PARTITA">
+    </form>
+    <a id="link-squadra" href="http://localhost:5000/wp">Pagina principale</a>
+    <br>
+    <a id="link-squadra" href="http://localhost:5000/wp/squadra">Vai direttamente alle statistiche di squadra</a>
+    <br>
+    <a id="link-classifiche" href="http://localhost:5000/wp/personali">Vai direttamente alle classifiche personali</a>
+    <br>
+    <a id="guarda-db" href="http://localhost:5000/wp/db">Mostra il database</a>
+    <script>
+        th = ["numero", "nome", "gol", "tiri", "assist", "espulsioni", "recuperi", "stoppate", "plusminus", "palleperse"];
+        var num_stats = 10;
+        default_players = ["Giulio Boldrini",
+                "Luca Biocca",
+                "Tommaso Fachinetti",
+                "Matteo Bernini",
+                "Leonardo Fantini",
+                "Daniele Greco",
+                /*
+                "Filippo Vagelli",
+                "Lorenzo Paggini",
+                "Valerio Zanfagna",
+                "Lorenzo Falcinelli",
+                "Matteo Pisani",
+                "Giorgio Sardi",
+                "Alessio Greco"*/
+            ];
+
+        function crea_tabella()
+        {
+            var root = document.getElementById("scoreboard");
+            for (let i = 1; i < 14; i++) {
+                var riga = document.createElement("TR");
+                for (let j = 0; j < num_stats; j++) {
+                    var td = document.createElement("TD");
+                    var stat = document.createElement("input");
+                    stat.name = th[j]+i;
+                    if(th[j] != "nome" && th[j] != "numero"){
+                        stat.type = "number";
+                        if(th[j] != "plusminus")
+                            stat.min = 0;
+                    }
+                    stat.value = 0; // default
+                    if(th[j] == "numero")
+                        stat.value = i;
+                    if(th[j] == "nome" && default_players[i-1] != undefined)
+                        stat.value = default_players[i-1];
+                    td.appendChild(stat);
+                    riga.appendChild(td);
+                }
+                root.appendChild(riga);
+            }
+        }
+    </script>
+</body>
+</html>
