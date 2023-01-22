@@ -14,6 +14,12 @@ def classifica_grezza():
 
 # classifica stats per partita
 def classifica_partita():    
+
+
+
+
+
+
     conn = sqlite3.connect('instance/stats.db')
     cursor = conn.execute("""
     SELECT nome_giocatore, count(*), round(sum(gol)*1.0/count(*), 2), round(sum(tiri)*1.0/count(*), 2), round(sum(assist)*1.0/count(*), 2), round(sum(recuperi)*1.0/count(*), 2), round(sum(stoppate)*1.0/count(*), 2), round(sum(espulsioni)*1.0/count(*), 2), round(sum(palle_perse)*1.0/count(*), 2), round(sum(plusminus)*1.0/count(*), 2)
@@ -29,11 +35,11 @@ def avanzate():
     conn = sqlite3.connect('instance/stats.db')
     cursor = conn.execute("""
     SELECT nome_giocatore, 
-        round(sum(plusminus)*100.0/sum(ritmo), 2) as net_rating,
+        round(sum(plusminus)*100.0/(sum(ritmo_att)+sum(ritmo_def)), 2) as net_rating,
         round(sum(gol)*100.0/sum(tiri), 2) as goal_perc,
         round((sum(gol)+sum(assist)+sum(recuperi)+sum(stoppate)-sum(espulsioni)-sum(palle_perse))*1.0/count(*), 2) as eff,
-        round((sum(gol)+sum(assist))*100.0/sum(ritmo), 2) as att,
-        round((sum(stoppate)+sum(recuperi))*100.0/sum(ritmo), 2) as def,
+        round((sum(gol)+sum(assist))*100.0/(sum(ritmo_att)+sum(ritmo_def)), 2) as att,
+        round((sum(stoppate)+sum(recuperi))*100.0/(sum(ritmo_att)+sum(ritmo_def)), 2) as def,
         round(sum(assist)*1.0/sum(palle_perse), 2) as pm
     FROM personali INNER JOIN partita ON partita.id = personali.id_partita
     GROUP BY nome_giocatore
@@ -46,7 +52,7 @@ def avanzate():
 def squadra_grezza():
     conn = sqlite3.connect('instance/stats.db')
     cursor = conn.execute("""
-    SELECT avversario, location, data_partita, sum(gol), gol_subiti, round(piu_realizzati*100.0/piu_tentati, 2), round(meno_subiti*100.0/meno_tentati, 2), ritmo
+    SELECT avversario, location, data_partita, sum(gol), gol_subiti, round(piu_realizzati*100.0/piu_tentati, 2), round(meno_subiti*100.0/meno_tentati, 2), ritmo_att+ritmo_def
     FROM personali INNER JOIN partita ON partita.id = personali.id_partita
     GROUP BY partita.id
     ORDER BY data_partita DESC""")
@@ -62,7 +68,8 @@ def medie_squadra():
     FROM (
         SELECT sum(gol) as gol_fatti, gol_subiti, 
                 round(piu_realizzati*100.0/piu_tentati, 2) as perc_piu, 
-                round(meno_subiti*100.0/meno_tentati, 2) as perc_meno, ritmo
+                round(meno_subiti*100.0/meno_tentati, 2) as perc_meno, 
+                ritmo_att + ritmo_def as ritmo
         FROM personali INNER JOIN partita ON partita.id = personali.id_partita
         GROUP BY partita.id
     )

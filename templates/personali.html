@@ -28,7 +28,7 @@
             {% for stats in classifica_grezza %}
             <tr>
                 {% for s in stats %}
-                <td>{{ s }}</td>
+                <td>{{ s if s!=None else 0 }}</td>
                     {% endfor %}
                 </tr>
                 {% endfor %}
@@ -55,7 +55,7 @@
             {% for stats in classifica_partita %}
             <tr>
                 {% for s in stats %}
-                <td>{{ s }}</td>
+                <td>{{ s if s!=None else 0 }}</td>
                     {% endfor %}
                 </tr>
                 {% endfor %}
@@ -70,8 +70,8 @@
                 <th onclick="sort('avanzate', 1)">Net Rating</th>
                 <th onclick="sort('avanzate', 2)">% Gol</th>
                 <th onclick="sort('avanzate', 3)">EFF</th>
-                <th onclick="sort('avanzate', 5)">ATT</th>
-                <th onclick="sort('avanzate', 6)">DEF</th>
+                <th onclick="sort('avanzate', 4)">ATT</th>
+                <th onclick="sort('avanzate', 5)">DEF</th>
                 <th onclick="sort('avanzate', 6)">PM</th>
             </tr>
         </thead>
@@ -79,8 +79,8 @@
             {% for stats in avanzate %}
             <tr>
                 {% for s in stats %}
-                <td>{{ s }}</td>
-                    {% endfor %}
+                <td>{{ s if s!=None else 0 }}</td>
+                     {% endfor %}
                 </tr>
                 {% endfor %}
             </tbody>

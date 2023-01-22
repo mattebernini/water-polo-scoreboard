@@ -17,7 +17,8 @@ class TeamStats(db.Model):
     gol_subiti = db.Column(db.Integer())
     piu_tentati = db.Column(db.Integer())
     piu_realizzati = db.Column(db.Integer())
-    ritmo = db.Column(db.Integer())
+    ritmo_att = db.Column(db.Integer())
+    ritmo_def = db.Column(db.Integer())
     meno_tentati = db.Column(db.Integer())
     meno_subiti = db.Column(db.Integer())
 class Player(db.Model):
@@ -37,7 +38,7 @@ class PersonalStats(db.Model):
     palle_perse = db.Column(db.Integer())
     
 def salva_partita(request):
-    team_stats = TeamStats(avversario=request.form['avversaria'], location=request.form["location"], data_partita=request.form['data'], gol_subiti=request.form["gol subiti"], piu_tentati=request.form['+ tentati'], piu_realizzati=request.form['+ realizzati'], ritmo=request.form['ritmo'], meno_tentati=request.form["- tentati"], meno_subiti=request.form["- subiti"])
+    team_stats = TeamStats(avversario=request.form['avversaria'], location=request.form["location"], data_partita=request.form['data'], gol_subiti=request.form["gol subiti"], piu_tentati=request.form['+ tentati'], piu_realizzati=request.form['+ realizzati'], ritmo_att=request.form['ritmo_att'], ritmo_def=request.form['ritmo_def'], meno_tentati=request.form["- tentati"], meno_subiti=request.form["- subiti"])
     # controllino
     if team_stats.avversario == "" or team_stats.data_partita == "" or team_stats.location == "":
         return redirect("http://localhost:5000/stats_partita")
@@ -85,7 +86,7 @@ def stampa_db():
 def result():
     if request.method == 'POST':
         salva_partita(request)
-        return render_template("personali.html", classifica_grezza=analytics_wp.classifica_grezza())
+        return render_template("personali.html", classifica_grezza=analytics_wp.classifica_grezza(), classifica_partita=analytics_wp.classifica_partita(), avanzate=analytics_wp.avanzate())
 
 @app.route('/wp/personali',methods = ['POST', 'GET'])
 def personali():

@@ -14,7 +14,8 @@ def crea_db(conn):
             GOL_SUBITI      INT,
             PIU_TENTATI     INT,
             PIU_REALIZZATI  INT,
-            RITMO           INT,
+            RITMO_ATT           INT,
+            RITMO_DEF           INT,
             MENO_TENTATI           INT,
             MENO_SUBITI           INT
             );""")
@@ -75,7 +76,7 @@ conn = sqlite3.connect('instance/stats.db')
 print("Opened database successfully")
 
 while 1:
-    i = input("1: crea\n2: mostra\n3: elimina tutti i dati\n4: elimina personal stats\n5: elimina partite\n6: dump")
+    i = input("1: crea\n2: mostra\n3: elimina tutti i dati\n4: elimina personal stats\n5: elimina partite\n6: dump\n")
     match i:
         case "1":
             crea_db(conn)

@@ -17,4 +17,3 @@ Il file *main.py* contiene il frontend dell'applicazione, infatti tramite Flask 
 Per interrogare il database si utilizzano le funzioni presenti nel file *analytics_wp.py* .
 Infine il file *manage_db.py* viene lanciato a parte qual'ora ci sia la necessità di intervenire sul database:
         python3 manage_db.py
-
